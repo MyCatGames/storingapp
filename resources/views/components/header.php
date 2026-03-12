@@ -1,4 +1,4 @@
-<?php require_once __DIR__.'/../../../config/config.php'; ?>
+<?php require_once __DIR__.'/../../../config/conn.php'; ?>
 
 <header>
     <div class="container">

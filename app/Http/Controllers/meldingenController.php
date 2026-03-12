@@ -38,29 +38,24 @@ if(!empty($errors)) {
         $params['prioriteit'] = '1';
     }
     $query = http_build_query($params);
-    require_once '../../../config/config.php';
+    require_once '../../../config/conn.php';
     header("Location: $base_url/resources/views/meldingen/create.php?$query");
     exit;
 }
 
-//1. Verbinding
-require_once '../../../config/conn.php';
-
 //2. Query
-$sql = "INSERT INTO meldingen (attractie, type, capaciteit, prioriteit, melder, overige_info) VALUES (?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO meldingen (attractie, type, capaciteit, prioriteit, melder, overige_info) 
+VALUES (:attractie, :type, :capaciteit, :prioriteit, :melder, :overige_info)";
 
 //3. Prepare
-$stmt = $conn->prepare($sql);
-if(!$stmt) {
-    die('Prepare failed');
-}
+$statement = $conn->prepare($query);
 
 //4. Execute
-try {
-    $stmt->execute([$attractie, $type, $capaciteit, $prioriteit, $melder, $overige_info]);
-    require_once '../../../config/config.php';
-    header("Location: $base_url/resources/views/meldingen/index.php?msg=".urlencode('Melding opgeslagen'));
-    exit;
-} catch (PDOException $e) {
-    die('Insert failed: ' . $e->getMessage());
-}
+$statement->execute([
+    ':attractie' => $attractie,
+    ':type' => $type,
+    ':capaciteit' => $capaciteit !== '' ? $capaciteit : null,
+    ':prioriteit' => $prioriteit,
+    ':melder' => $melder,
+    ':overige_info' => $overige_info
+]);
