@@ -1,36 +1,4 @@
-<?php
-session_start();
-require_once __DIR__.'/../../../config/conn.php';
-
-// Controleer of gebruiker al ingelogd is
-if(isset($_SESSION['user'])) {
-    header('Location: ' . $base_url . '/resources/views/meldingen/index.php');
-    exit;
-}
-
-$error = '';
-
-// Verwerk login form
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    
-    if(!empty($username) && !empty($password)) {
-        // Check gebruiker in database
-        $stmt = $conn->prepare('SELECT * FROM users WHERE username = ?');
-        $stmt->execute([$username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if($user && $user['password'] === $password) {
-            $_SESSION['user'] = $username;
-            header('Location: ' . $base_url . '/resources/views/meldingen/index.php');
-            exit;
-        } else {
-            $error = 'Ongeldige gebruikersnaam of wachtwoord';
-        }
-    }
-}
-?>
+<?php require_once __DIR__.'/../../../config/config.php'; ?>
 <!doctype html>
 <html lang="nl">
 
@@ -45,19 +13,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
         <h1>Inloggen</h1>
-        <?php if($error): ?>
-            <div class="msg error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-        <form method="POST" action="">
-            <div>
+
+        <form action="<?php echo $base_url; ?>/app/Http/Controllers/loginController.php" method="POST">
+            <div class="form-group">
                 <label for="username">Gebruikersnaam:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" name="username" id="username" class="form-input" required>
             </div>
-            <div>
+
+            <div class="form-group">
                 <label for="password">Wachtwoord:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" name="password" id="password" class="form-input" required>
             </div>
-            <button type="submit">Inloggen</button>
+
+            <input type="submit" value="Inloggen">
         </form>
     </div>
 

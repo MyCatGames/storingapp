@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__.'/../../../config/conn.php';
 
 // Controleer of gebruiker ingelogd is
-if(!isset($_SESSION['user'])) {
+if(!isset($_SESSION['user_id'])) {
     header('Location: ' . $base_url . '/resources/views/login/index.php');
     exit;
 }

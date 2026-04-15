@@ -9,22 +9,6 @@ CREATE DATABASE IF NOT EXISTS `storingapp` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `storingapp`;
 
 --
--- Tabel: `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL UNIQUE,
-  `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `users` (`username`, `password`) VALUES
-('user1', 'wachtwoord1'),
-('user2', 'wachtwoord2');
-
---
 -- Tabel: `meldingen`
 --
 
@@ -44,3 +28,20 @@ CREATE TABLE IF NOT EXISTS `meldingen` (
 
 INSERT INTO `meldingen` (`attractie`, `type`, `capaciteit`, `prioriteit`, `melder`, `gemeld_op`, `overige_info`) VALUES
 ('Terminator3000', 'achtbaan', 200, 1, 'M. Onteur', '2020-01-01 00:00:00', 'Dit is een testmelding.');
+
+--
+-- Tabel: `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` text NOT NULL,
+  `password` text NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users` (`username`, `password`, `admin`) VALUES
+('user1', '$2y$10$kyNzhPO3FR5YjugocKkgA.i9/uA3./BloaPya3v2qnzf4ERerJqlW', 0),
+('user2', '$2y$10$fA/E.3YXD.Hy9zBTHRL4yO7z0BBB0gV2CU/cXnseTSCmRM.6iHTo6', 0);
