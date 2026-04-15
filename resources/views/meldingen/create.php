@@ -1,4 +1,13 @@
-<?php require_once __DIR__.'/../../../config/conn.php'; ?>
+<?php
+session_start();
+require_once __DIR__.'/../../../config/conn.php';
+
+// Controleer of gebruiker ingelogd is
+if(!isset($_SESSION['user'])) {
+    header('Location: ' . $base_url . '/resources/views/login/index.php');
+    exit;
+}
+?>
 <!doctype html>
 <html lang="nl">
 

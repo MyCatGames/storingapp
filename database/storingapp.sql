@@ -9,6 +9,22 @@ CREATE DATABASE IF NOT EXISTS `storingapp` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `storingapp`;
 
 --
+-- Tabel: `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users` (`username`, `password`) VALUES
+('user1', 'wachtwoord1'),
+('user2', 'wachtwoord2');
+
+--
 -- Tabel: `meldingen`
 --
 
